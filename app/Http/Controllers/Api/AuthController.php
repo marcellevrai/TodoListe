@@ -22,10 +22,12 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+        $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
             'message' => 'Utilisateur créé avec succès',
-            'user' => $user
+            'user' => $user,
+            'token' => $token,
         ]);
     }
 
@@ -44,7 +46,7 @@ class AuthController extends Controller
             ]);
         }
 
-        $token = $user->createToken('todo-token')->plainTextToken;
+        $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
             'message' => 'connexion reussie',
